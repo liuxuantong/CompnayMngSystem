@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" />
+
+	<package name="struts2Sample" extends="struts-default">
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+		<action name="hello" class="org.liuxt.struts2.action.HelloWorld"
+			method="execute">
+			<result name="success">/HelloWorld.jsp</result>
+		</action>
+		<action name="login" class="org.liuxt.struts2.action.LoginAction"
+			method="execute">
+			<result name="input">/login.jsp</result>
+			<result name="success">/success.jsp</result>
+		</action>
+
+		<action name="saveUser" method="saveUser" class="userAction">
+			<result name="success" type="redirect">listUser</result>
+		</action>
+		<action name="listUser" method="list" class="userAction">
+			<result name="success">/list.jsp</result>
+		</action>
+		<action name="editUser" method="edit" class="userAction">
+			<result name="success">/userUpdate.jsp</result>
+		</action>
+		<action name="deleteUser" method="delete" class="userAction">
+			<result name="success" type="redirect">listUser</result>
+		</action>
+	</package>
+</struts>

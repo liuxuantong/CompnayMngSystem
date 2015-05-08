@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap>
+
+	<typeAlias type="org.liuxt.ibatisSpring.model.LoginUser"
+		alias="loginUser" />
+
+	<resultMap class="loginUser" id="result">
+		<result property="userId" column="LOGIN_ID" />
+		<result property="password" column="PASSWD" />
+		<result property="kanjiName" column="KANJI_NAME" />
+		<result property="kanaName" column="KANA_NAME" />
+		<result property="mail" column="MAIL" />
+		<result property="tel" column="TEL" />
+		<result property="deleteFlg" column="DELETE_FLG" />
+		<result property="regDt" column="REGDT" />
+		<result property="regId" column="REGID" />
+		<result property="updDt" column="UPDDT" />
+		<result property="updId" column="UPDID" />
+	</resultMap>
+
+	<select id="findLoginUser" resultMap="result" parameterClass="loginUser">
+		select * from M_LOGIN_USER
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="userId">
+				LOGIN_ID = #userId#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="password">
+				PASSWD = #password#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="selectJsrById" resultMap="result" parameterClass="string">
+		select * from M_LOGIN_USER where LOGIN_ID = #value#
+	</select>
+
+	<insert id="insertLoginUser" parameterClass="loginUser">
+		insert into M_LOGIN_USER (LOGIN_ID, KANJI_NAME,
+		KANA_NAME,MAIL,TEL,DELETE_FLG, REGDT,REGID,UPDDT,UPDID)
+		values (#userId#, #kanjiName#, #kanaName#,
+		#mail#,#tel#,#deleteFlg#,#regDt#, #regId#, #updDt#, #updId#)
+	</insert>
+	<delete id="deleteLoginUser" parameterClass="loginUser">
+		delete from M_LOGIN_USER where LOGIN_ID = #userId#
+	</delete>
+
+	<update id="updateLoginUser" parameterClass="loginUser">
+		update M_LOGIN_USER set KANJI_NAME = #kanjiName#,
+		KANA_NAME = #kanaName#,
+		MAIL = #mail#,
+		TEL = #tel#,
+		DELETE_FLG = #deleteFlg#,
+		UPDDT = #updDt#,
+		UPDID = #updId#
+		where LOGIN_ID = #userId#
+	</update>
+</sqlMap>

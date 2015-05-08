@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost/test</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value>aa111111</value>
+		</property>
+	</bean>
+
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:SqlMapConfig.xml</value>
+		</property>
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+	<bean id="userDao" class="org.liuxt.ibatisSpring.dao.UserDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="userService" class="org.liuxt.ibatisSpring.service.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+
+	<bean id="userAction" class="org.liuxt.struts2.action.UserAction">
+		<property name="userService" ref="userService" />
+	</bean>
+
+</beans>
